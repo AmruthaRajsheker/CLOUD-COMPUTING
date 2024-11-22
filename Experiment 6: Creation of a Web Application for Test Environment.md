@@ -1,9 +1,9 @@
-## **Experiment 6: Creation of a Web Application for Test Environment**
+### **Experiment 6: Creation of a Web Application for Test Environment Using AWS Services**
 
 
 
 ### **AIM:**
-To create a web application in a test environment using AWS services (e.g., Elastic Beanstalk) or a local development server.
+To create and deploy a web application in a test environment using AWS services like Elastic Beanstalk, S3, and RDS.
 
 
 
@@ -14,94 +14,141 @@ To create a web application in a test environment using AWS services (e.g., Elas
 
 2. **Software:**
    - Web browser (e.g., Chrome, Firefox).
-   - Text editor or Integrated Development Environment (IDE) (e.g., VS Code, Sublime Text).
-   - Local web server (e.g., XAMPP, WAMP) or AWS account for deployment.
+   - AWS account with permissions for Elastic Beanstalk, S3, and RDS.
 
 3. **Programming Tools:**
-   - Frontend: HTML, CSS, JavaScript (optional frameworks like React or Angular).
-   - Backend: Node.js, Python (Flask/Django), or PHP.
-   - Database (optional): MySQL, PostgreSQL, or DynamoDB.
+   - A web application framework (e.g., Flask, Django, or Node.js).
+   - AWS CLI (optional for deployment).
 
 
 
 ### **THEORY:**
 
-A **test environment** is an isolated space where a web application can be developed, deployed, and tested before it is released to production. It ensures the code is functional and error-free under controlled conditions. Popular approaches include:
+AWS provides various services to create and deploy web applications in a cloud-based test environment. The most commonly used services are:
 
-- **Local Test Environment**: Applications are tested on a local web server like XAMPP/WAMP.
-- **Cloud-based Test Environment**: Deployed on platforms like AWS Elastic Beanstalk, which automatically manages infrastructure and resources for testing.
+1. **Amazon Elastic Beanstalk:** A fully managed service that automatically handles the deployment, scaling, and management of applications.
+2. **Amazon S3:** A scalable storage service for hosting static files or media.
+3. **Amazon RDS:** A managed relational database service for storing application data.
 
-**AWS Elastic Beanstalk** simplifies application deployment by providing a managed environment for running web applications. It supports multiple languages and frameworks, such as Node.js, Python, and Java.
+These services simplify creating a test environment while ensuring scalability and reliability.
 
 
 
 ### **ALGORITHM / PROCEDURE:**
 
-#### **1. Setup a Local Web Application Test Environment:**
+#### **1. Create the Web Application Locally:**
 
-1. **Install a Local Server (Optional):**
-   - Install XAMPP or WAMP for local testing (if using PHP or MySQL).
-   - Start the Apache and MySQL servers from the control panel.
-
-2. **Create the Web Application:**
-   - Create a project folder (e.g., `TestWebApp`).
-   - Add an `index.html` file as the entry point.
-   - (Optional) Add CSS, JavaScript, or backend code depending on requirements.
-
-3. **Run the Application Locally:**
-   - Place the project in the server’s `htdocs` folder (for XAMPP/WAMP).
-   - Access the application in a browser using `http://localhost/TestWebApp`.
-
-
-
-#### **2. Create and Deploy a Web Application in AWS Elastic Beanstalk:**
-
-1. **Set Up AWS CLI (Optional):**
-   - Install AWS CLI and configure it with your credentials:
-     ```bash
-     aws configure
-     ```
-     Enter your **Access Key**, **Secret Key**, region (e.g., `us-east-1`), and output format (e.g., `json`).
-
-2. **Create the Web Application Code:**
-   - Develop the web application using your preferred language/framework.
-   - For example, a simple `app.py` for a Flask application:
+1. **Develop the Application:**
+   - Create a simple application using a framework like Flask (Python), Node.js, or Spring Boot (Java).
+   - Example for Flask (`app.py`):
      ```python
      from flask import Flask
      app = Flask(__name__)
 
      @app.route("/")
      def home():
-         return "Welcome to the Test Environment!"
+         return "Welcome to the Test Environment using AWS!"
 
      if __name__ == "__main__":
          app.run(debug=True)
      ```
-   - Save your project in a folder (e.g., `TestWebApp`).
 
-3. **Zip the Application Files:**
-   - Compress your application files into a `.zip` file for deployment.
+2. **Install Required Dependencies:**
+   - Create a `requirements.txt` file (for Python):
+     ```
+     Flask==2.0.1
+     ```
 
-4. **Deploy to Elastic Beanstalk:**
-   - In the AWS Management Console, search for **Elastic Beanstalk**.
+3. **Test Locally:**
+   - Run the application locally to ensure it works:
+     ```bash
+     python app.py
+     ```
+   - Access it in a browser at `http://127.0.0.1:5000`.
+
+
+
+#### **2. Create and Configure the AWS Environment:**
+
+##### **A. Set Up AWS Elastic Beanstalk for Deployment:**
+
+1. **Sign in to AWS Console:**
+   - Log in to the [AWS Management Console](https://aws.amazon.com/).
+
+2. **Create a New Elastic Beanstalk Application:**
+   - Search for **Elastic Beanstalk** in the AWS console.
    - Click **Create Application**.
    - Enter an **Application Name** (e.g., `TestWebApp`).
-   - Select a **Platform** (e.g., Python, Node.js, or PHP).
-   - Upload the `.zip` file of your application.
-   - Click **Create Application** to deploy.
 
-5. **Test the Application:**
-   - Once the application is deployed, AWS will provide a public URL.
-   - Open the URL in a browser to test your application.
+3. **Select Platform and Application Code:**
+   - Choose a platform (e.g., **Python**, **Node.js**, or **PHP**).
+   - Upload your application code as a `.zip` file (containing `app.py`, `requirements.txt`, and other files).
+
+4. **Launch the Application:**
+   - Click **Create Application**.
+   - Wait for Elastic Beanstalk to provision the environment.
+
+5. **Access the Application:**
+   - Once deployed, AWS provides a public URL to access the application.
+
+
+
+##### **B. Use Amazon S3 for Static File Hosting (Optional):**
+
+1. **Navigate to S3:**
+   - In the AWS Console, search for **S3** and click **Create bucket**.
+
+2. **Create and Configure the Bucket:**
+   - Enter a unique bucket name (e.g., `testwebapp-static-files`).
+   - Choose a region (e.g., `us-east-1`).
+   - Enable public access (if required for static files).
+
+3. **Upload Static Files:**
+   - Upload files like images, CSS, or JavaScript to the bucket.
+
+4. **Access Files:**
+   - Use the object URL provided by S3 to access static files.
+
+
+
+##### **C. Set Up a Database with Amazon RDS (Optional):**
+
+1. **Navigate to RDS:**
+   - In the AWS Console, search for **RDS** and click **Create Database**.
+
+2. **Create a Database Instance:**
+   - Select **Standard Create** and choose a database engine (e.g., MySQL, PostgreSQL).
+   - Configure settings like instance type (e.g., `db.t2.micro`) and storage size.
+
+3. **Connect the Application to the Database:**
+   - Update your application code with the RDS database endpoint:
+     ```python
+     import mysql.connector
+     conn = mysql.connector.connect(
+         host="your-rds-endpoint.amazonaws.com",
+         user="admin",
+         password="password",
+         database="testdb"
+     )
+     ```
+
+
+
+#### **3. Test the Deployed Application:**
+
+- Access the Elastic Beanstalk application using the public URL provided.
+- Ensure all components (e.g., database connectivity and static file access) are functional.
 
 
 
 ### **OUTPUTS:**
 
-- The web application is successfully created and tested in the local environment or deployed to AWS Elastic Beanstalk.
+- A web application deployed to AWS Elastic Beanstalk.
+- Static files hosted on Amazon S3 (if configured).
+- Database configured with Amazon RDS (if used).
 
 
 
 ### **RESULT:**
 
-The web application was successfully created and deployed in the test environment. It was tested for functionality and confirmed to be operational.
+The web application was successfully deployed in a test environment using AWS Elastic Beanstalk, with optional integration of S3 for static files and RDS for database storage.
